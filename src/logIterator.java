@@ -1,5 +1,5 @@
 import java.util.Iterator;
-import java.util.List;
+
 
 public class logIterator<E> implements Iterator<E> {
     private logElement<E> Current;
@@ -9,12 +9,12 @@ public class logIterator<E> implements Iterator<E> {
         Current = log.getFirstItem();
     }
 
-    @Override
+
     public boolean hasNext() {
         return Current != null;
     }
 
-    @Override
+
     public E next() {
         E data = Current.getData();
         Current = Current.getNext();

@@ -15,15 +15,19 @@ public class OptimizedLog<E> implements Collection<E>{
         firstItem = null;
     }
 
-    public int size() { //complete
+    /**
+     *
+     * @return Number of grouped logs
+     */
+    public int size() {
         return size;
-    } //Complete
+    }
 
-    public boolean isEmpty() { //complete
+    public boolean isEmpty() {
         return size == 0;
-    } //Complete
+    }
 
-    public boolean contains(Object o) { //Complete
+    public boolean contains(Object o) {
         logElement e = firstItem;
         while(e != null)
         {
@@ -36,11 +40,11 @@ public class OptimizedLog<E> implements Collection<E>{
         return false;
     }
 
-    public Iterator<E> iterator() { //Complete
+    public Iterator<E> iterator() {
         return new logIterator<>(this);
     }
 
-    public Object[] toArray() { //Complete
+    public Object[] toArray() {
         Object[] array = new Object[size];
         logElement<E> e = firstItem;
         int i = 0;
@@ -74,7 +78,7 @@ public class OptimizedLog<E> implements Collection<E>{
         return a;
     }
 
-    public boolean add(E data) { //complete
+    public boolean add(E data) {
         logElement<E> newLogElement = new logElement<>(data);
         logElement temp = firstItem;
         if (firstItem == null) {
@@ -89,6 +93,7 @@ public class OptimizedLog<E> implements Collection<E>{
         if (temp.getData() == data) {
             temp.setCount(temp.getCount() + 1);
             temp.setFinalTime(ZonedDateTime.now().format(RFC_1123_DATE_TIME));
+            size++;
             return true;
         }
         temp.setNext(newLogElement);
@@ -96,12 +101,12 @@ public class OptimizedLog<E> implements Collection<E>{
         return true;
     }
 
-    public boolean remove(Object o) { //complete
+    public boolean remove(Object o) {
         System.out.println("Error: Cannot remove from OptimizedLog");
         return false;
     }
 
-    public boolean containsAll(Collection<?> c) { //Complete
+    public boolean containsAll(Collection<?> c) {
         for (Object o : c) {
             if (!contains(o)) {
                 return false;
@@ -110,7 +115,7 @@ public class OptimizedLog<E> implements Collection<E>{
         return true;
     }
 
-    public boolean addAll(Collection<? extends E> c) { //Complete
+    public boolean addAll(Collection<? extends E> c) {
         Object[] x = c.toArray();
 
         for (Object o : x) {
@@ -119,20 +124,20 @@ public class OptimizedLog<E> implements Collection<E>{
         return true;
     }
 
-    public String toString() { //Complete
+    public String toString() {
         StringBuilder s = new StringBuilder();
         logElement e = this.getFirstItem();
         while (e != null) {
             if (e.getCount() == 0) {
                 s.append('[').append(e.getTime()).append("] ").append(e.toString()).append("\n");
-                 }
-            else {
-                      s.append('[').append(e.getTime()).append(" - ").append(e.getFinalTime()).append(']').append('[').append(e.getCount() + 1).append(" TIMES] ").append(e.toString()).append("\n");
-                   }
-                e = e.getNext();
             }
-            return s.toString();
+            else {
+                s.append('[').append(e.getTime()).append(" - ").append(e.getFinalTime()).append(']').append('[').append(e.getCount() + 1).append(" TIMES] ").append(e.toString()).append("\n");
+            }
+            e = e.getNext();
         }
+        return s.toString();
+    }
 
     /**
      * returns the first item in the log
@@ -141,14 +146,14 @@ public class OptimizedLog<E> implements Collection<E>{
     public logElement getFirstItem() {
         return firstItem;
     }
-  public int hashCode() {
-      int hashCode = 1;
-      for (E e : this)
-      {
-          hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
-      }
-      return hashCode;
-  }
+    public int hashCode() {
+        int hashCode = 1;
+        for (E e : this)
+        {
+            hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
+        }
+        return hashCode;
+    }
     public boolean equals(Object o)
     {
         logElement current1 = getFirstItem();
@@ -160,13 +165,11 @@ public class OptimizedLog<E> implements Collection<E>{
         {
             OptimizedLog other = (OptimizedLog) o;
             logElement current2 = other.getFirstItem();
-            System.out.println(current1.toString());
-            System.out.println(current2.toString());
             if(this.size() != other.size())
             {
                 return false;
             }
-            while(current1 != null)
+            while(current1 != null && current2 != null)
             {
                 if(current1.getData() != current2.getData()){
                     return false;

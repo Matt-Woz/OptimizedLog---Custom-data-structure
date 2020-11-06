@@ -3,19 +3,24 @@ import java.time.ZonedDateTime;
 
 import static java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME;
 
+/**
+ * This class represents a node of the OptimizedLog data structure
+ * @param <E> Generic type E
+ */
+
 public class logElement<E> {
     private logElement<E> next;
     private final E data;
-    private int count;
-    private final String time = ZonedDateTime.now().format(RFC_1123_DATE_TIME);
-    private String finalTime;
+    private int count; //Amount of duplicate /consecutive elements
+    private final String time = ZonedDateTime.now().format(RFC_1123_DATE_TIME); //Get current time
+    private String finalTime; //Time of final element of same value
 
     public logElement(E data)
     {
         next = null;
         this.data = data;
     }
-
+//relevant setters and getters
     public String getFinalTime() {
         return finalTime;
     }
